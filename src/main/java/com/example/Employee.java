@@ -2,11 +2,13 @@ package com.example;
 
 import com.fasterxml.jackson.annotation.JsonMerge;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 import java.util.Map;
 import java.util.Objects;

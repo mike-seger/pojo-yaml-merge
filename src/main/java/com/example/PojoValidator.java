@@ -1,8 +1,8 @@
 package com.example;
 
-import jakarta.validation.*;
-
-import java.util.Set;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 public class PojoValidator {
 	private final static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
