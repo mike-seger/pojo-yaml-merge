@@ -25,12 +25,21 @@ class ReadWriteMergeTest {
 	void testRead() throws IOException {
 		var davidFile = new File(Objects.requireNonNull(getClass().getResource("david.yaml")).getFile());
 		var david = om.readValue(davidFile, Employee.class);
+		PojoValidator.validate(david);
 		assertEquals(1000, david.getId());
 		assertEquals("David", david.getName());
 		assertEquals(1500, david.getWage());
 		assertEquals("Developer", david.getPosition());
 		assertNotNull(david.getColleagues());
 		assertEquals(2, david.getColleagues().size());
+	}
+
+
+	@Test
+	void testReadInvalid() throws IOException {
+		var davidFile = new File(Objects.requireNonNull(getClass().getResource("david-invalid.yaml")).getFile());
+		var david = om.readValue(davidFile, Employee.class);
+		PojoValidator.validate(david);
 	}
 
 	@Test
@@ -50,6 +59,7 @@ class ReadWriteMergeTest {
 	void testMerge() throws IOException {
 		var davidFile = new File(Objects.requireNonNull(getClass().getResource("david.yaml")).getFile());
 		var david = om.readValue(davidFile, Employee.class);
+		PojoValidator.validate(david);
 		assertEquals("David", david.getName());
 		assertEquals(1500, david.getWage());
 		assertEquals("Developer", david.getPosition());
@@ -66,9 +76,10 @@ class ReadWriteMergeTest {
 		ObjectReader merger = om.readerForUpdating(david);
 
 		var davidMerged = merger.readValue(davidUpdateFile, Employee.class);
+		PojoValidator.validate(davidMerged);
 		assertEquals(3, davidMerged.getColleagues().size());
 		assertNotNull(david.getColleagues().get(1002L));
-		
+
 		assertEquals(2000, mary.getWage());
 		assertEquals("Boss", mary.getPosition());
 	}
