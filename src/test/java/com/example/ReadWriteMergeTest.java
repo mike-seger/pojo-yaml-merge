@@ -24,13 +24,13 @@ class ReadWriteMergeTest {
 	@Test
 	void testRead() throws IOException {
 		var davidFile = new File(Objects.requireNonNull(getClass().getResource("david.yaml")).getFile());
-		var employee = om.readValue(davidFile, Employee.class);
-		assertEquals(1000, employee.getId());
-		assertEquals("David", employee.getName());
-		assertEquals(1500, employee.getWage());
-		assertEquals("Developer", employee.getPosition());
-		assertNotNull(employee.getColleagues());
-		assertEquals(2, employee.getColleagues().size());
+		var david = om.readValue(davidFile, Employee.class);
+		assertEquals(1000, david.getId());
+		assertEquals("David", david.getName());
+		assertEquals(1500, david.getWage());
+		assertEquals("Developer", david.getPosition());
+		assertNotNull(david.getColleagues());
+		assertEquals(2, david.getColleagues().size());
 	}
 
 	@Test
@@ -67,8 +67,8 @@ class ReadWriteMergeTest {
 
 		var davidMerged = merger.readValue(davidUpdateFile, Employee.class);
 		assertEquals(3, davidMerged.getColleagues().size());
-
 		assertNotNull(david.getColleagues().get(1002L));
+		
 		assertEquals(2000, mary.getWage());
 		assertEquals("Boss", mary.getPosition());
 	}
