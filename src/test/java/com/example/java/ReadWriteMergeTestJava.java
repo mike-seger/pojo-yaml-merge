@@ -18,7 +18,7 @@ import java.util.TreeMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class ReadWriteMergeTest {
+class ReadWriteMergeTestJava {
 	final private ObjectMapper om = new ObjectMapper(new YAMLFactory());
 
 	@Test
@@ -34,7 +34,6 @@ class ReadWriteMergeTest {
 		assertEquals(2, david.getColleagues().size());
 	}
 
-
 	@Test
 	void testReadInvalid() throws IOException {
 		var davidFile = new File(Objects.requireNonNull(getClass().getResource("/david.yaml")).getFile());
@@ -49,8 +48,8 @@ class ReadWriteMergeTest {
 	@Test
 	void testWrite() throws IOException, URISyntaxException {
 		var colleagues = new TreeMap<Long, Employee>();
-		colleagues.put(1001L, new Employee(1001, "Jane", 1200, "Developer", null));
-		colleagues.put(1002L, new Employee(1002, "Mary", 1500, "Developer", null));
+		colleagues.put(1001L, new Employee(1001, "Jane", 1200, "Developer"));
+		colleagues.put(1002L, new Employee(1002, "Mary", 1500, "Developer"));
 		var david = new Employee(1000, "David", 1500, "Developer", colleagues);
 		var result = new StringWriter();
 		om.writeValue(result, david);

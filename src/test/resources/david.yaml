@@ -9,10 +9,10 @@ colleagues:
     name: "Jane"
     wage: 1200
     position: "Developer"
-    colleagues: null
+    colleagues: {}
   1002:
     id: 1002
     name: "Mary"
     wage: 1500
     position: "Developer"
-    colleagues: null
+    colleagues: {}
