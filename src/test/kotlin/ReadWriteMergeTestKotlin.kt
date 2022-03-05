@@ -1,9 +1,8 @@
 package com.example.kotlin
 
 import com.fasterxml.jackson.databind.ObjectMapper
-//import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -29,7 +28,6 @@ internal class ReadWriteMergeTestKotlin {
         assertEquals(1500, david.wage)
         assertEquals("Developer", david.position)
         assertNotNull(david.colleagues)
-        //assertEquals(2, david.colleagues?.size ?: 0)
         assertEquals(2, david.colleagues.size)
     }
 
@@ -39,7 +37,6 @@ internal class ReadWriteMergeTestKotlin {
         val davidFile = File(Objects.requireNonNull(javaClass.getResource("/david.yaml")).file)
         val david = om.readValue(davidFile, Employee::class.java)
         david.wage = 15000
- //       val mary = david.colleagues?.get(1002L)
         val mary = david.colleagues[1002L]
         assertNotNull(mary)
         mary!!.wage = 10000
@@ -70,9 +67,7 @@ internal class ReadWriteMergeTestKotlin {
         assertEquals(1500, david.wage)
         assertEquals("Developer", david.position)
         assertNotNull(david.colleagues)
-//        assertEquals(2, david.colleagues?.size ?: 0)
         assertEquals(2, david.colleagues.size)
-        //val mary = david.colleagues?.get(1002L)
         val mary = david.colleagues[1002L]
         assertNotNull(mary)
         assertEquals("Mary", mary!!.name)
@@ -82,12 +77,8 @@ internal class ReadWriteMergeTestKotlin {
         val merger = om.readerForUpdating(david)
         val davidMerged = merger.readValue(davidUpdateFile, Employee::class.java)
         PojoValidator.validate(davidMerged)
-//        assertEquals(3, davidMerged.colleagues?.size ?: 0, "colleagues are not properly merged using JSonMerge")
         assertEquals(3, davidMerged.colleagues.size)
-        //val maryUpdated = david.colleagues?.get(1002L)
-        val maryUpdated = david.colleagues[1002L]
-        assertNotNull(maryUpdated)
-        assertEquals(2000, maryUpdated?.wage ?: 0)
-        assertEquals("Boss", maryUpdated?.position)
+        assertEquals(2000, mary.wage)
+        assertEquals("Boss", mary.position)
     }
 }
