@@ -37,8 +37,12 @@ class ReadWriteMergeTest {
 
 	@Test
 	void testReadInvalid() throws IOException {
-		var davidFile = new File(Objects.requireNonNull(getClass().getResource("david-invalid.yaml")).getFile());
+		var davidFile = new File(Objects.requireNonNull(getClass().getResource("david.yaml")).getFile());
 		var david = om.readValue(davidFile, Employee.class);
+		david.setWage(15000);
+		var mary = david.getColleagues().get(1002L);
+		assertNotNull(mary);
+		mary.setWage(10000);
 		PojoValidator.validate(david);
 	}
 
