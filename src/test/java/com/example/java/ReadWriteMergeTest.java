@@ -1,4 +1,4 @@
-package com.example;
+package com.example.java;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -23,7 +23,7 @@ class ReadWriteMergeTest {
 
 	@Test
 	void testRead() throws IOException {
-		var davidFile = new File(Objects.requireNonNull(getClass().getResource("david.yaml")).getFile());
+		var davidFile = new File(Objects.requireNonNull(getClass().getResource("/david.yaml")).getFile());
 		var david = om.readValue(davidFile, Employee.class);
 		PojoValidator.validate(david);
 		assertEquals(1000, david.getId());
@@ -37,7 +37,7 @@ class ReadWriteMergeTest {
 
 	@Test
 	void testReadInvalid() throws IOException {
-		var davidFile = new File(Objects.requireNonNull(getClass().getResource("david.yaml")).getFile());
+		var davidFile = new File(Objects.requireNonNull(getClass().getResource("/david.yaml")).getFile());
 		var david = om.readValue(davidFile, Employee.class);
 		david.setWage(15000);
 		var mary = david.getColleagues().get(1002L);
@@ -55,13 +55,13 @@ class ReadWriteMergeTest {
 		var result = new StringWriter();
 		om.writeValue(result, david);
 		var expected = new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(
-			getClass().getResource("david.yaml")).toURI())), StandardCharsets.UTF_8.name());
+			getClass().getResource("/david.yaml")).toURI())), StandardCharsets.UTF_8.name());
 		assertEquals(expected, result.toString());
 	}
 
 	@Test
 	void testMerge() throws IOException {
-		var davidFile = new File(Objects.requireNonNull(getClass().getResource("david.yaml")).getFile());
+		var davidFile = new File(Objects.requireNonNull(getClass().getResource("/david.yaml")).getFile());
 		var david = om.readValue(davidFile, Employee.class);
 		PojoValidator.validate(david);
 		assertEquals("David", david.getName());
@@ -76,7 +76,7 @@ class ReadWriteMergeTest {
 		assertEquals(1500, mary.getWage());
 		assertEquals("Developer", mary.getPosition());
 
-		var davidUpdateFile = new File(Objects.requireNonNull(getClass().getResource("david-update.yaml")).getFile());
+		var davidUpdateFile = new File(Objects.requireNonNull(getClass().getResource("/david-update.yaml")).getFile());
 		ObjectReader merger = om.readerForUpdating(david);
 
 		var davidMerged = merger.readValue(davidUpdateFile, Employee.class);

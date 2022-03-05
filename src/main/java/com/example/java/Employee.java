@@ -1,4 +1,4 @@
-package com.example;
+package com.example.java;
 
 import com.fasterxml.jackson.annotation.JsonMerge;
 import jakarta.validation.Valid;

@@ -8,4 +8,5 @@ This demonstrates how to load POJOs from YAML and override some attributes from 
 
 # Links
 - https://hibernate.org/validator/documentation/getting-started/
+- https://medium.com/nerd-for-tech/object-validation-in-kotlin-c7e02b5dabc
 
