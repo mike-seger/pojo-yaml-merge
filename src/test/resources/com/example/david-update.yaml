@@ -1,0 +1,16 @@
+---
+name: "David"
+wage: 1700
+colleagues:
+  1002:
+    id: 1002
+    name: "Mary"
+    wage: 2000
+    position: "Boss"
+    colleagues: null
+  1003:
+    id: 1003
+    name: "Tim"
+    wage: 1600
+    position: "Developer"
+    colleagues: null
