@@ -1,4 +1,4 @@
-package com.example;
+package com.example.java;
 
 import com.fasterxml.jackson.annotation.JsonMerge;
 import jakarta.validation.Valid;
@@ -10,13 +10,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employee implements Comparable<Employee> {
+    public Employee(long id, String name, int wage, String position) {
+        this(id, name, wage, position, Collections.emptyMap()); }
+
     private long id;
 
     @NotBlank
@@ -32,18 +37,20 @@ public class Employee implements Comparable<Employee> {
 
     @JsonMerge
     @Valid
-    private Map<Long, Employee> colleagues;
+    private Map<Long, Employee> colleagues = new TreeMap<>();
 
     @Override
     public int compareTo(Employee employee) {
-        return name.compareTo(employee.name);
+        if(id == employee.id) return 0;
+        if(id < employee.id) return -1;
+        return 1;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Employee employee = (Employee) other;
         return id == employee.id;
     }
 

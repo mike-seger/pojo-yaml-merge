@@ -1,4 +1,4 @@
-package com.example;
+package com.example.java;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
