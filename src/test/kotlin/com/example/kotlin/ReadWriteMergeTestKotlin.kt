@@ -20,8 +20,7 @@ internal class ReadWriteMergeTestKotlin {
     @Test
     @Throws(IOException::class)
     fun testRead() {
-        val davidFile = File(Objects.requireNonNull(javaClass.getResource("/david.yaml")).file)
-        val david = om.readValue(davidFile, Employee::class.java)
+        val david = loadEmployee("/david.yaml")
         PojoValidator.validate(david)
         assertEquals(1000, david.id)
         assertEquals("David", david.name)
@@ -34,9 +33,10 @@ internal class ReadWriteMergeTestKotlin {
     @Test
     @Throws(IOException::class)
     fun testReadInvalid() {
-        val davidFile = File(Objects.requireNonNull(javaClass.getResource("/david.yaml")).file)
-        val david = om.readValue(davidFile, Employee::class.java)
+        val david = loadEmployee("/david.yaml")
+        PojoValidator.validate(david)
         david.wage = 15000
+        david.name = "Other \\ N+*ç%&/()"
         val mary = david.colleagues[1002L]
         assertNotNull(mary)
         mary!!.wage = 10000
@@ -60,8 +60,7 @@ internal class ReadWriteMergeTestKotlin {
     @Test
     @Throws(IOException::class)
     fun testMerge() {
-        val davidFile = File(Objects.requireNonNull(javaClass.getResource("/david.yaml")).file)
-        val david = om.readValue(davidFile, Employee::class.java)
+        val david = loadEmployee("/david.yaml")
         PojoValidator.validate(david)
         assertEquals("David", david.name)
         assertEquals(1500, david.wage)
@@ -80,5 +79,10 @@ internal class ReadWriteMergeTestKotlin {
         assertEquals(3, davidMerged.colleagues.size)
         assertEquals(2000, mary.wage)
         assertEquals("Boss", mary.position)
+    }
+
+    private fun loadEmployee(location: String) : Employee {
+        val employeeFile = File(Objects.requireNonNull(javaClass.getResource(location)).file)
+        return om.readValue(employeeFile, Employee::class.java)
     }
 }

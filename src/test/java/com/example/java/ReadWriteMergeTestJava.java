@@ -23,8 +23,7 @@ class ReadWriteMergeTestJava {
 
 	@Test
 	void testRead() throws IOException {
-		var davidFile = new File(Objects.requireNonNull(getClass().getResource("/david.yaml")).getFile());
-		var david = om.readValue(davidFile, Employee.class);
+		var david = loadEmployee("/david.yaml");
 		PojoValidator.validate(david);
 		assertEquals(1000, david.getId());
 		assertEquals("David", david.getName());
@@ -36,12 +35,13 @@ class ReadWriteMergeTestJava {
 
 	@Test
 	void testReadInvalid() throws IOException {
-		var davidFile = new File(Objects.requireNonNull(getClass().getResource("/david.yaml")).getFile());
-		var david = om.readValue(davidFile, Employee.class);
-		david.setWage(15000);
+		var david = loadEmployee("/david.yaml");
+		PojoValidator.validate(david);
+		david.wage = 15000;
+		david.name = "Other \\ N+*ç%&/()";
 		var mary = david.getColleagues().get(1002L);
 		assertNotNull(mary);
-		mary.setWage(10000);
+		mary.wage = 10000;
 		PojoValidator.validate(david);
 	}
 
@@ -60,8 +60,7 @@ class ReadWriteMergeTestJava {
 
 	@Test
 	void testMerge() throws IOException {
-		var davidFile = new File(Objects.requireNonNull(getClass().getResource("/david.yaml")).getFile());
-		var david = om.readValue(davidFile, Employee.class);
+		var david = loadEmployee("/david.yaml");
 		PojoValidator.validate(david);
 		assertEquals("David", david.getName());
 		assertEquals(1500, david.getWage());
@@ -85,5 +84,10 @@ class ReadWriteMergeTestJava {
 
 		assertEquals(2000, mary.getWage());
 		assertEquals("Boss", mary.getPosition());
+	}
+
+	private Employee loadEmployee(final String location) throws IOException {
+		var employeeFile = new File(Objects.requireNonNull(getClass().getResource(location)).getFile());
+		return om.readValue(employeeFile, Employee.class);
 	}
 }

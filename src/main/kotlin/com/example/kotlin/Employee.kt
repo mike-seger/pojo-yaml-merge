@@ -1,31 +1,28 @@
 package com.example.kotlin
 
 import com.fasterxml.jackson.annotation.JsonMerge
-import com.fasterxml.jackson.annotation.JsonSetter
-import com.fasterxml.jackson.annotation.Nulls
-import java.util.*
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Pattern
 
-class Employee(
-        var id: Long = -1, var name: String = "", var wage: Int = 0,
-        var position: String = "",
-//        @get:JsonSetter(nulls = Nulls.SKIP) @JsonMerge var colleagues: Map<Long, Employee>? = null
-        @get:JsonSetter(nulls = Nulls.SKIP) @JsonMerge var colleagues: Map<Long, Employee> = emptyMap()
-    ) : Comparable<Employee> {
+data class Employee(
+    @field:Min(0)
+    var id: Long = -1,
 
-   // constructor() : this(0, "", 0, "", null)
+    @field:NotBlank
+    @field:Pattern(regexp = "^[\\w'\\-,.][^0-9_!¡?÷¿/\\\\+=@#$%ˆ&*(){}|~<>;:\\[\\]]{2,}$")
+    var name: String = "",
 
-    override operator fun compareTo(other: Employee): Int {
-        return id.compareTo(other.id)
-    }
+    @field:Min(500)
+    @field:Max(5000)
+    var wage: Int = 0,
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
-        val employee = other as Employee
-        return id == employee.id
-    }
+    @field:NotBlank
+    var position: String = "",
 
-    override fun hashCode(): Int {
-        return Objects.hash(id)
-    }
-}
+    @JsonMerge
+    @field:Valid
+    var colleagues: Map<Long, Employee> = emptyMap()
+)
